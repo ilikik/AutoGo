@@ -50,46 +50,6 @@ func init() {
 	}
 }
 
-func readImage1() {
-	i := 0
-	s := 0
-	for {
-		s++
-		timestamp := time.Now().UnixMilli()
-		data, err := utils.GetBitMapData()
-		if err != nil {
-			i++
-			if i > 10 {
-				fmt.Fprintf(os.Stderr, "[images] 读取数据出错: %v\n", err)
-				os.Exit(1)
-			}
-			sleep(10)
-			continue
-		}
-		if len(data) > 1000000 {
-			width := int(binary.LittleEndian.Uint32(data[0:4]))
-			height := int(binary.LittleEndian.Uint32(data[4:8]))
-			expectedImageDataLen := width*height*4 + 8
-
-			if len(data) == expectedImageDataLen {
-				mutex.Lock()
-				capimg = image.NewNRGBA(image.Rect(0, 0, width, height))
-				capimg.Pix = data
-				mutex.Unlock()
-				timestamp = time.Now().UnixMilli()
-				i = 0
-			} else {
-				i++
-				if i > 10 {
-					fmt.Fprintln(os.Stderr, "[images] 解析图像数据错误:"+i2s(expectedImageDataLen)+", got "+i2s(len(data)))
-					os.Exit(1)
-				}
-			}
-		}
-		sleep(30)
-	}
-}
-
 func readImage() {
 	var (
 		retry        int
