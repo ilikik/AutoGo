@@ -77,7 +77,6 @@ func readImage1() {
 				capimg.Pix = data
 				mutex.Unlock()
 				timestamp = time.Now().UnixMilli()
-				utils.LogI("ceshi", utils.I2s(s)+" 读取完毕时间:"+utils.I2s(int(timestamp)))
 				i = 0
 			} else {
 				i++
