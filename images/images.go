@@ -67,7 +67,6 @@ func readImage1() {
 			continue
 		}
 		if len(data) > 1000000 {
-			utils.LogI("ceshi", utils.I2s(s)+" 开始读取时间:"+utils.I2s(int(timestamp)))
 			width := int(binary.LittleEndian.Uint32(data[0:4]))
 			height := int(binary.LittleEndian.Uint32(data[4:8]))
 			expectedImageDataLen := width*height*4 + 8
